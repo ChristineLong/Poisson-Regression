@@ -1,0 +1,119 @@
+---
+title: "HW5"
+author: "Yuelin Long"
+date: "March 10, 2019"
+output: html_document
+---
+
+
+```{r}
+#Load libraries
+library(tidyverse)
+library(pscl)
+```
+
+
+##Problem 1
+
+####Question 1
+```{r}
+#Load raw data
+crab_data = read.delim("HW5-crab.txt", sep = "") %>% 
+  select(-number)
+
+m1.fit = glm(Sa~W, family=poisson, data=crab_data)
+summary(m1.fit)
+
+#Goodness of fit
+m1.fit$deviance
+n = nrow(crab_data)
+p1 = 2
+df = n-p1
+qchisq(0.05,df)
+pval=1-pchisq(m1.fit$deviance,df=df)
+pval
+```
+
+Intepretation:
+
++ Intercept b0: Since the width of carapace cannot be 0, the intercept has no actual meaning.
++ Coefficient b1: With 1 unit change in carapace width, the log odds rate of the number of satellites of female crab would increase by 0.16405.
+
+
+Goodness of fit:
+The deviance is far greater than critical value. Therefore, reject the null hypothesis and conclude that the fit is bad. The small p value also confirms it.
+
+
+#Question 2
+```{r}
+m2.fit = glm(Sa~W+Wt, family=poisson, data=crab_data)
+summary(m2.fit)
+
+#Goodness of fit
+m2.fit$deviance
+p2 = 3
+df = n-p2
+qchisq(0.05,df)
+pval=1-pchisq(m2.fit$deviance,df=df)
+pval
+```
+
+Intepretation:
+
++ Intercept b0: Since the width of carapace cannot be 0, nor can the weight be 0, the intercept has no actual meaning.
++ Coefficient of W (b1): Given weight fixed, with 1 unit change in carapace width, the log odds rate of the number of satellites of female crab would increase by 0.04590.
++ Coefficient of Wt (b2): Given catapace width fixed, with 1 unit change in weight, the log odds rate of the number of satellites of female crab would increase by 0.44744.
+
+
+```{r}
+#Estimate over-dispersion parameters
+res.p2=residuals(m2.fit,type='pearson',data=crab_data) 
+G2=sum(res.p2^2)
+phi=G2/df
+
+#Check whether over dispersion exist - Half normal plot
+plot(qnorm((n+1:n+0.5)/(2*n+1.125)),sort(abs(res.p2)),xlab='Expected Half-Normal Order Stats',ylab='Ordered Abs Pearson Residuals')
+abline(a=0,b=1)
+abline(a=0,b=sqrt(phi),lty=2) 
+```
+
+The data fit the dotted line better, and the slope of dotted line is quite different from the solid line. This indicates that there is over dispersion.
+
+```{r}
+#Fit model adjusted for over dispersion
+summary(m2.fit,dispersion=phi)
+```
+
+
+Intepretation (same as unadjusted):
+
++ Intercept b0: Since the width of carapace cannot be 0, nor can the weight be 0, the intercept has no actual meaning.
++ Coefficient of W (b1): Given weight fixed, with 1 unit change in carapace width, the log odds rate of the number of satellites of female crab would increase by 0.04590.
++ Coefficient of Wt (b2): Given catapace width fixed, with 1 unit change in weight, the log odds rate of the number of satellites of female crab would increase by 0.44744.
+
+
+
+##Problem 2
+####Question 1
+```{r}
+#Load raw data
+para_data = read.delim("HW5-parasite.txt", sep = "") %>% 
+  select(-Sample, -starts_with("omit"))
+
+m1.fit = glm(Intensity~., family=poisson, data=para_data)
+summary(m1.fit)
+```
+
+
+####Question 2
+```{r}
+#Goodness of fit
+m1.fit$deviance
+n = nrow(para_data)
+p1 = ncol(para_data) - 1
+df = n-p1
+qchisq(0.05,df)
+pval=1-pchisq(m1.fit$deviance,df=df)
+pval
+```
+
