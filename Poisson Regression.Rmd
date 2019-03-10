@@ -98,22 +98,50 @@ Intepretation (same as unadjusted):
 ```{r}
 #Load raw data
 para_data = read.delim("HW5-parasite.txt", sep = "") %>% 
-  select(-Sample, -starts_with("omit"))
+  select(-Sample, -starts_with("omit")) %>% 
+  na.omit()
 
 m1.fit = glm(Intensity~., family=poisson, data=para_data)
 summary(m1.fit)
 ```
+
+Intepretation:
+
++ Intercept b0: Since the length of fish cannot be 0, nor can the area be 0, the intercept has no actual meaning.
++ Coefficient of Year (b1): Given length of fish and area fixed, every 1 year increase would increase the log odds rate of the number of parasite by -9.710e-02.
++ Coefficient of Length (b2): Given year and area fixed, every 1 unit increase in the length of fish would increase the log odds rate of the number of parasite by -2.972e-02.
++ Coefficient of Area (b3): Given year and length of fish fixed, every 1 unit change in area would increase the log odds rate of the number of parasite by 6.201e-01.
+
+
 
 
 ####Question 2
 ```{r}
 #Goodness of fit
 m1.fit$deviance
-n = nrow(para_data)
+n = as.numeric(nrow(para_data))
 p1 = ncol(para_data) - 1
 df = n-p1
 qchisq(0.05,df)
 pval=1-pchisq(m1.fit$deviance,df=df)
 pval
 ```
+
+Goodness of fit:
+The deviance is far greater than critical value. Therefore, reject the null hypothesis and conclude that the fit is bad. The small p value also confirms it.
+
+####Question 3
+```{r}
+m2.fit = zeroinfl(Intensity ~ Year + Area | Length, data = para_data)
+summary(m2.fit)
+```
+
+Intepretation:
+
++ Intercept b0: Since the the area can't be 0, the intercept has no actual meaning.
++ Coefficient of Year (b1): Given length of fish and area fixed, every 1 year increase would increase the log odds rate of the number of parasite by -0.11226.
++ Coefficient of Area (b2): Given year and length of fish fixed, every 1 unit change in area would increase the log odds rate of the number of parasite by 0.44329.
+
++ Coefficient of Length: Given year and area fixed, for 1 unit increase in the length of fish, the log odds ration of susceptible to parasites over not susceptible to parasites would be -0.002162.
+
 
