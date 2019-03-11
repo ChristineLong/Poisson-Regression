@@ -99,7 +99,9 @@ Intepretation (same as unadjusted):
 #Load raw data
 para_data = read.delim("HW5-parasite.txt", sep = "") %>% 
   select(-Sample, -starts_with("omit")) %>% 
-  na.omit()
+  na.omit() %>% 
+  dplyr::mutate(Area = factor(Area, levels = rep(1:4)),
+         Year = factor(Year, levels = rep(1999:2001)))
 
 m1.fit = glm(Intensity~., family=poisson, data=para_data)
 summary(m1.fit)
@@ -107,10 +109,14 @@ summary(m1.fit)
 
 Intepretation:
 
-+ Intercept b0: Since the length of fish cannot be 0, nor can the area be 0, the intercept has no actual meaning.
-+ Coefficient of Year (b1): Given length of fish and area fixed, every 1 year increase would increase the log odds rate of the number of parasite by -9.710e-02.
-+ Coefficient of Length (b2): Given year and area fixed, every 1 unit increase in the length of fish would increase the log odds rate of the number of parasite by -2.972e-02.
-+ Coefficient of Area (b3): Given year and length of fish fixed, every 1 unit change in area would increase the log odds rate of the number of parasite by 6.201e-01.
++ Intercept: Since the length of the fish can't be 0, the intercept has no actual meaning.
++ Coefficient of Year 2000: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is 0.6702801 for Year 2000 verse year 1999.
++ Coefficient of Year 2001: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is -0.2181393 for Year 2001 verse year 1999.
++ Coefficient of Length: Given year and area fixed, every 1 unit increase in the length of fish would increase the log odds rate of the number of parasites by -0.0284228.
++ Coefficient of Area2: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by -0.2119557 in area 2 versus area 1.
++ Coefficient of Area3: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by -0.1168602 in area 3 versus area 1.
++ Coefficient of Area4: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 1.4049366 in area 4 versus area 1.
+
 
 
 
@@ -132,16 +138,33 @@ The deviance is far greater than critical value. Therefore, reject the null hypo
 
 ####Question 3
 ```{r}
-m2.fit = zeroinfl(Intensity ~ Year + Area | Length, data = para_data)
+m2.fit = zeroinfl(Intensity ~ Year + Length + Area | Year + Length + Area, data = para_data)
 summary(m2.fit)
 ```
 
 Intepretation:
 
-+ Intercept b0: Since the the area can't be 0, the intercept has no actual meaning.
-+ Coefficient of Year (b1): Given length of fish and area fixed, every 1 year increase would increase the log odds rate of the number of parasite by -0.11226.
-+ Coefficient of Area (b2): Given year and length of fish fixed, every 1 unit change in area would increase the log odds rate of the number of parasite by 0.44329.
+For Poisson model:
 
-+ Coefficient of Length: Given year and area fixed, for 1 unit increase in the length of fish, the log odds ration of susceptible to parasites over not susceptible to parasites would be -0.002162.
+Intepretation:
+
++ Intercept: Since the length of the fish can't be 0, the intercept has no actual meaning.
++ Coefficient of Year 2000: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is 0.3919831 for Year 2000 verse year 1999.
++ Coefficient of Year 2001: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is -0.0448455 for Year 2001 verse year 1999.
++ Coefficient of Length: Given year and area fixed, every 1 unit increase in the length of fish would increase the log odds rate of the number of parasites by  -0.0368067.
++ Coefficient of Area2: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 0.2687835 in area 2 versus area 1.
++ Coefficient of Area3: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 0.1463173 in area 3 versus area 1.
++ Coefficient of Area4: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 0.9448068 in area 4 versus area 1.
+
+
+For Binomial model:
+
++ Intercept b0: Since the length of the fish can't be 0, the intercept has no actual meaning.
++ Coefficient of Year 2000: Given length of fish and area fixed, the log odds ratio of susceptible to parasites over not susceptible to parasites is -0.752119 for Year 2000 verse year 1999.
++ Coefficient of Year 2001: Given length of fish and area fixed, the log odds ratio of susceptible to parasites over not susceptible to parasites is 0.456535 for Year 2001 verse year 1999.
++ Coefficient of Length: Given year and area fixed, for every 1 unit change in length of the fish, the log odds ratio of susceptible to parasites over not susceptible to parasites would be -0.009889.
++ Coefficient of Area2: Given year and length of fish fixed, the log odds ratio of susceptible to parasites over not susceptible to parasites would be 0.718676 in area 2 versus area 1.
++ Coefficient of Area3: Given year and length of fish fixed, the log odds ratio of susceptible to parasites over not susceptible to parasites would be 0.657708 in area 3 versus area 1.
++ Coefficient of Area4: Given year and length of fish fixed, the log odds ratio of susceptible to parasites over not susceptible to parasites would be -1.022868 in area 4 versus area 1.
 
 
