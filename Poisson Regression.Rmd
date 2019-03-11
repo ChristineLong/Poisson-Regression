@@ -37,7 +37,7 @@ pval
 Intepretation:
 
 + Intercept b0: Since the width of carapace cannot be 0, the intercept has no actual meaning.
-+ Coefficient b1: With 1 unit change in carapace width, the log odds rate of the number of satellites of female crab would increase by 0.16405.
++ Coefficient b1: With 1 unit change in carapace width, the log rate ratio of the number of satellites of female crab would increase by 0.16405.
 
 
 Goodness of fit:
@@ -61,8 +61,8 @@ pval
 Intepretation:
 
 + Intercept b0: Since the width of carapace cannot be 0, nor can the weight be 0, the intercept has no actual meaning.
-+ Coefficient of W (b1): Given weight fixed, with 1 unit change in carapace width, the log odds rate of the number of satellites of female crab would increase by 0.04590.
-+ Coefficient of Wt (b2): Given catapace width fixed, with 1 unit change in weight, the log odds rate of the number of satellites of female crab would increase by 0.44744.
++ Coefficient of W (b1): Given weight fixed, with 1 unit change in carapace width, the log rate ratio of the number of satellites of female crab would increase by 0.04590.
++ Coefficient of Wt (b2): Given catapace width fixed, with 1 unit change in weight, the log rate ratio of the number of satellites of female crab would increase by 0.44744.
 
 
 ```{r}
@@ -88,8 +88,8 @@ summary(m2.fit,dispersion=phi)
 Intepretation (same as unadjusted):
 
 + Intercept b0: Since the width of carapace cannot be 0, nor can the weight be 0, the intercept has no actual meaning.
-+ Coefficient of W (b1): Given weight fixed, with 1 unit change in carapace width, the log odds rate of the number of satellites of female crab would increase by 0.04590.
-+ Coefficient of Wt (b2): Given catapace width fixed, with 1 unit change in weight, the log odds rate of the number of satellites of female crab would increase by 0.44744.
++ Coefficient of W (b1): Given weight fixed, with 1 unit change in carapace width, the log rate ratio of the number of satellites of female crab would increase by 0.04590.
++ Coefficient of Wt (b2): Given catapace width fixed, with 1 unit change in weight, the log rate ratio of the number of satellites of female crab would increase by 0.44744.
 
 
 
@@ -110,12 +110,12 @@ summary(m1.fit)
 Intepretation:
 
 + Intercept: Since the length of the fish can't be 0, the intercept has no actual meaning.
-+ Coefficient of Year 2000: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is 0.6702801 for Year 2000 verse year 1999.
++ Coefficient of Year 2000: Given length of fish and area fixed, the log odds rate ratio of for Year 2000 verse year 1999 for the number of parasites is 0.6702801.
 + Coefficient of Year 2001: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is -0.2181393 for Year 2001 verse year 1999.
-+ Coefficient of Length: Given year and area fixed, every 1 unit increase in the length of fish would increase the log odds rate of the number of parasites by -0.0284228.
-+ Coefficient of Area2: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by -0.2119557 in area 2 versus area 1.
-+ Coefficient of Area3: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by -0.1168602 in area 3 versus area 1.
-+ Coefficient of Area4: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 1.4049366 in area 4 versus area 1.
++ Coefficient of Length: Given year and area fixed, every 1 unit increase in the length of fish would increase the log rate ratio of the number of parasites by -0.0284228.
++ Coefficient of Area2: Given year and length of fish fixed, the log rate ratio of number of parasite would increase by -0.2119557 in area 2 versus area 1.
++ Coefficient of Area3: Given year and length of fish fixed, the log rate ratio of number of parasite would increase by -0.1168602 in area 3 versus area 1.
++ Coefficient of Area4: Given year and length of fish fixed, the log rate ratio of number of parasite would increase by 1.4049366 in area 4 versus area 1.
 
 
 
@@ -149,12 +149,12 @@ For Poisson model:
 Intepretation:
 
 + Intercept: Since the length of the fish can't be 0, the intercept has no actual meaning.
-+ Coefficient of Year 2000: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is 0.3919831 for Year 2000 verse year 1999.
-+ Coefficient of Year 2001: Given length of fish and area fixed, the log odds rate of the increase of number of parasites is -0.0448455 for Year 2001 verse year 1999.
-+ Coefficient of Length: Given year and area fixed, every 1 unit increase in the length of fish would increase the log odds rate of the number of parasites by  -0.0368067.
-+ Coefficient of Area2: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 0.2687835 in area 2 versus area 1.
-+ Coefficient of Area3: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 0.1463173 in area 3 versus area 1.
-+ Coefficient of Area4: Given year and length of fish fixed, the log odds rate of the increase of number of parasite by 0.9448068 in area 4 versus area 1.
++ Coefficient of Year 2000: Given length of fish and area fixed, the log rate ratio of number of parasite would increase by 0.3919831 for Year 2000 verse year 1999.
++ Coefficient of Year 2001: Given length of fish and area fixed, the log rate ratio of number of parasite would increase by -0.0448455 for Year 2001 verse year 1999.
++ Coefficient of Length: Given year and area fixed, every 1 unit increase in the length of fish would increase the log rate ratio of number of parasites by  -0.0368067.
++ Coefficient of Area2: Given year and length of fish fixed, the log rate ratio of number of parasite would increase by 0.2687835 in area 2 versus area 1.
++ Coefficient of Area3: Given year and length of fish fixed, the log rate ratio of number of parasite would increase by 0.1463173 in area 3 versus area 1.
++ Coefficient of Area4: Given year and length of fish fixed, the log rate ratio of number of parasite would increase by 0.9448068 in area 4 versus area 1.
 
 
 For Binomial model:
